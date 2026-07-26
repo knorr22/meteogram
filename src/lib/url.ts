@@ -13,3 +13,17 @@ export function getUrlCity(): UrlCity | null {
   const country = p.get('country')?.trim() || undefined
   return { name, country }
 }
+
+/** Whether `?fullscreen=1` (or `true`) is set in the URL. */
+export function getUrlFullscreen(): boolean {
+  const v = new URLSearchParams(location.search).get('fullscreen')?.toLowerCase()
+  return v === '1' || v === 'true'
+}
+
+/** Reflect fullscreen state in the URL without adding a history entry. */
+export function setUrlFullscreen(on: boolean): void {
+  const url = new URL(location.href)
+  if (on) url.searchParams.set('fullscreen', '1')
+  else url.searchParams.delete('fullscreen')
+  history.replaceState(null, '', url)
+}

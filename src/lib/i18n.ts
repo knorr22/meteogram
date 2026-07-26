@@ -26,6 +26,8 @@ interface Strings {
   heroSub: string
   searchPlaceholder: string
   clear: string
+  fullscreen: string
+  exitFullscreen: string
   loading: string
   errorPrefix: string
   legendHigh: string
@@ -53,6 +55,8 @@ const dict: Record<Lang, Strings> = {
       'We pull the next two weeks from 12 official weather services, take the median, and show you exactly how much they disagree.',
     searchPlaceholder: 'Search a city…',
     clear: 'Clear',
+    fullscreen: 'Fullscreen',
+    exitFullscreen: 'Exit fullscreen',
     loading: 'Gathering forecasts from every source…',
     errorPrefix: 'Failed to load forecast',
     legendHigh: 'High (median)',
@@ -78,6 +82,8 @@ const dict: Record<Lang, Strings> = {
       'Wir laden die nächsten zwei Wochen von 12 offiziellen Wetterdiensten, bilden den Median und zeigen dir genau, wie stark sie sich uneinig sind.',
     searchPlaceholder: 'Stadt suchen…',
     clear: 'Leeren',
+    fullscreen: 'Vollbild',
+    exitFullscreen: 'Vollbild verlassen',
     loading: 'Vorhersagen aus allen Quellen werden gesammelt…',
     errorPrefix: 'Vorhersage konnte nicht geladen werden',
     legendHigh: 'Max (Median)',

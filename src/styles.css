@@ -207,6 +207,7 @@ a:hover { text-decoration: underline; }
 }
 
 .panel {
+  position: relative;
   background: var(--card);
   border: 1px solid var(--card-brd);
   border-radius: var(--radius);
@@ -214,6 +215,55 @@ a:hover { text-decoration: underline; }
   backdrop-filter: blur(16px);
   padding: clamp(1rem, 3vw, 1.5rem);
 }
+
+/* Fullscreen toggle, pinned to the card's top-right corner. */
+.fs-btn {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 34px; height: 34px;
+  padding: 0;
+  border: 1px solid var(--card-brd-2);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--ink-dim);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.fs-btn:hover { background: rgba(255, 255, 255, 0.12); color: var(--ink); border-color: var(--accent); }
+.fs-btn svg { width: 18px; height: 18px; }
+
+/* Card expands to cover the whole viewport. */
+.panel--fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  max-width: none;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 2rem);
+  /* Opaque so the page underneath doesn't bleed through the glass. */
+  background:
+    radial-gradient(1100px 600px at 78% -8%, rgba(124, 123, 255, 0.16), transparent 60%),
+    radial-gradient(900px 500px at 8% 4%, rgba(77, 215, 255, 0.10), transparent 55%),
+    linear-gradient(180deg, var(--bg-2), var(--bg));
+  backdrop-filter: none;
+}
+.panel--fullscreen .meteogram { margin-top: 1rem; }
+
+body.no-scroll { overflow: hidden; }
+
+/* Lift the stage above the hero so the fixed fullscreen card covers everything
+   (.stage otherwise forms a stacking context capped below the hero's z-index). */
+.app.is-fullscreen .stage { z-index: 300; }
 
 .panel--state, .panel--empty {
   display: flex;
@@ -243,6 +293,8 @@ a:hover { text-decoration: underline; }
   gap: 1rem;
   flex-wrap: wrap;
   margin-bottom: 0.6rem;
+  /* Reserve room so the top-right fullscreen button never overlaps the legend. */
+  padding-right: 2.9rem;
 }
 .panel__city {
   margin: 0;
