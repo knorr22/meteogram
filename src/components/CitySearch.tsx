@@ -22,6 +22,17 @@ export function CitySearch({ onSelect, selected }: Props) {
   const [loading, setLoading] = useState(false)
   const debounced = useDebounce(query, 250)
   const boxRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  // Clear the field and refocus so the user can type a new city right away.
+  // Focusing inside the click gesture also raises the on-screen keyboard on mobile.
+  function reset() {
+    setQuery('')
+    setResults([])
+    setActive(0)
+    setOpen(false)
+    inputRef.current?.focus()
+  }
 
   // Reflect a city set from outside (e.g. resolved from the URL after mount).
   useEffect(() => {
@@ -95,6 +106,7 @@ export function CitySearch({ onSelect, selected }: Props) {
           />
         </svg>
         <input
+          ref={inputRef}
           type="text"
           value={query}
           placeholder={t.searchPlaceholder}
@@ -108,6 +120,26 @@ export function CitySearch({ onSelect, selected }: Props) {
           onKeyDown={onKeyDown}
         />
         {loading && <span className="citysearch__spinner" aria-label="loading" />}
+        {!loading && query && (
+          <button
+            type="button"
+            className="citysearch__clear"
+            aria-label={t.clear}
+            title={t.clear}
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={reset}
+          >
+            <svg viewBox="0 0 24 24" aria-hidden>
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                d="M6 6l12 12M18 6L6 18"
+              />
+            </svg>
+          </button>
+        )}
       </div>
       {open && results.length > 0 && (
         <ul className="citysearch__list" role="listbox">
