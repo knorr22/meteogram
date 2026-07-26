@@ -22,6 +22,7 @@ export async function fetchForecast(city: City, signal?: AbortSignal): Promise<F
     latitude: String(city.latitude),
     longitude: String(city.longitude),
     daily: METRICS.join(','),
+    current: 'temperature_2m',
     models,
     forecast_days: String(FORECAST_DAYS),
     timezone: 'auto',
@@ -67,9 +68,13 @@ export async function fetchForecast(city: City, signal?: AbortSignal): Promise<F
 
   const activeSources: Source[] = SOURCES.filter((s) => activeSet.has(s.id))
 
+  const cur = data.current
+  const currentTemp = typeof cur?.temperature_2m === 'number' ? cur.temperature_2m : null
+
   return {
     days,
     activeSources,
     units: { temp: tempUnit, precip: precipUnit },
+    current: { temp: currentTemp, time: cur?.time ?? null },
   }
 }

@@ -28,6 +28,7 @@ interface Strings {
   clear: string
   fullscreen: string
   exitFullscreen: string
+  now: string
   loading: string
   errorPrefix: string
   legendHigh: string
@@ -57,6 +58,7 @@ const dict: Record<Lang, Strings> = {
     clear: 'Clear',
     fullscreen: 'Fullscreen',
     exitFullscreen: 'Exit fullscreen',
+    now: 'Now',
     loading: 'Gathering forecasts from every source…',
     errorPrefix: 'Failed to load forecast',
     legendHigh: 'High (median)',
@@ -84,6 +86,7 @@ const dict: Record<Lang, Strings> = {
     clear: 'Leeren',
     fullscreen: 'Vollbild',
     exitFullscreen: 'Vollbild verlassen',
+    now: 'Jetzt',
     loading: 'Vorhersagen aus allen Quellen werden gesammelt…',
     errorPrefix: 'Vorhersage konnte nicht geladen werden',
     legendHigh: 'Max (Median)',

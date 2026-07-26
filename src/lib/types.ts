@@ -52,4 +52,6 @@ export interface ForecastResult {
   activeSources: Source[]
   /** Units reported by the API. */
   units: { temp: string; precip: string }
+  /** Latest observed/nowcast conditions for the location. */
+  current: { temp: number | null; time: string | null }
 }

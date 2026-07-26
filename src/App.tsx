@@ -158,6 +158,15 @@ export default function App() {
                   <p className="panel__coords">
                     {city.latitude.toFixed(2)}°, {city.longitude.toFixed(2)}°
                   </p>
+                  {data.current.temp != null && (
+                    <div className="panel__now">
+                      <span className="panel__now-temp">
+                        {Math.round(data.current.temp)}
+                        {data.units.temp}
+                      </span>
+                      <span className="panel__now-label">{t.now}</span>
+                    </div>
+                  )}
                 </div>
                 <div className="legend">
                   <span className="legend__item">
