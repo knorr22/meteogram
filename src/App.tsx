@@ -7,12 +7,16 @@ import { Meteogram } from './components/Meteogram'
 import { SourceLegend } from './components/SourceLegend'
 import { loadLastCity, saveLastCity } from './lib/storage'
 import { getUrlCity } from './lib/url'
+import { DEFAULT_CITY } from './lib/defaults'
 import { t } from './lib/i18n'
 
 export default function App() {
-  // A `?city=` URL param takes priority over the cached city. When present we
-  // start empty and resolve it async (below); otherwise restore from cache.
-  const [city, setCity] = useState<City | null>(() => (getUrlCity() ? null : loadLastCity()))
+  // Priority: `?city=` URL param → cached city → default city. When a URL param
+  // is present we start empty and resolve it async (below); otherwise restore
+  // from cache, falling back to the default on first visit.
+  const [city, setCity] = useState<City | null>(() =>
+    getUrlCity() ? null : loadLastCity() ?? DEFAULT_CITY
+  )
   const [data, setData] = useState<ForecastResult | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -39,11 +43,11 @@ export default function App() {
               (r) => r.countryCode.toLowerCase() === wanted || r.country.toLowerCase() === wanted
             )) ||
           results[0]
-        // Fall back to the cache if the URL city can't be resolved.
-        setCity(pick ?? loadLastCity())
+        // Fall back to the cache, then the default, if the URL city can't resolve.
+        setCity(pick ?? loadLastCity() ?? DEFAULT_CITY)
       })
       .catch(() => {
-        if (!cancelled) setCity(loadLastCity())
+        if (!cancelled) setCity(loadLastCity() ?? DEFAULT_CITY)
       })
     return () => {
       cancelled = true
