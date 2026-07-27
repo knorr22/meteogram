@@ -23,6 +23,9 @@ export function CitySearch({ onSelect, selected }: Props) {
   const debounced = useDebounce(query, 250)
   const boxRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  // Set right after a selection so the search effect skips the re-run that
+  // `selected` changing triggers while `debounced` still holds the old text.
+  const suppressSearchRef = useRef(false)
 
   // Clear the field and refocus so the user can type a new city right away.
   // Focusing inside the click gesture also raises the on-screen keyboard on mobile.
@@ -40,6 +43,11 @@ export function CitySearch({ onSelect, selected }: Props) {
   }, [selected])
 
   useEffect(() => {
+    // A just-committed selection must not reopen the dropdown.
+    if (suppressSearchRef.current) {
+      suppressSearchRef.current = false
+      return
+    }
     const q = debounced.trim()
     if (q.length < 2) {
       setResults([])
@@ -71,6 +79,7 @@ export function CitySearch({ onSelect, selected }: Props) {
   }, [])
 
   function choose(c: City) {
+    suppressSearchRef.current = true
     onSelect(c)
     setQuery(label(c))
     setOpen(false)
