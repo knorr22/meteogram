@@ -84,6 +84,8 @@ export function CitySearch({ onSelect, selected }: Props) {
     setQuery(label(c))
     setOpen(false)
     setResults([])
+    // Drop focus so the on-screen keyboard closes on mobile after picking.
+    inputRef.current?.blur()
   }
 
   function onKeyDown(e: React.KeyboardEvent) {
